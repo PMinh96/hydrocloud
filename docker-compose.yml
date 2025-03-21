@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  getgoo_travel:
+    build:
+      context: .
+    image: getgoo_img:latest
+    restart: always
+    networks:
+      - traefik-net
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.getgoo_travel.rule=Host(`app.getgoo.vn`)'
+      - 'traefik.http.routers.getgoo_travel.entrypoints=https'
+      - 'traefik.http.services.getgoo_travel.loadbalancer.server.port=3000'
+      - 'traefik.http.routers.getgoo_travel.tls=true'
+      - 'traefik.http.routers.getgoo_travel.tls.certresolver=letsencrypt'
+networks:
+  traefik-net:
+    external: true
